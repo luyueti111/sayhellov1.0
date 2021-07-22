@@ -15,15 +15,15 @@
             </div>
         </form>
         <h4>{{ messages|length }} Messages</h4>
-        <ul class="list-group" style="width: 500px">
+        <div class="list-group" style="width: 500px">
             {% for message in messages %}
-                <li class="list-group-item">
+                <a class="list-group-item" href="https://www.baidu.com">
                     <h4 class="list-group-item-heading">{{ message.name }}<small>&nbsp;&nbsp;&nbsp;#{{ loop.revindex }}</small></h4>
                     <p class="list-group-item-text" style="width: 490px; word-break: break-all; word-wrap: break-word">{{ message.body }}</p>
                     <small>
                         {{ message.timestamp.strftime('%Y/%m/%d %H:%M') }}
                     </small>
-                </li>
+                </a>
             {% endfor %}
-        </ul>
+        </div>
 {% endblock content %}
