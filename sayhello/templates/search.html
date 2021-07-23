@@ -12,9 +12,11 @@
             <li class="list-group-item">
                 <h4 class="list-group-item-heading">{{ message.name }}<small>&nbsp;&nbsp;&nbsp;#{{ message.id }}</small></h4>
                 <p class="list-group-item-text" style="width: 490px; word-break: break-all; word-wrap: break-word">{{ message.body }}</p>
-                <small>
-                    {{ message.timestamp.strftime('%Y/%m/%d %H:%M') }}
+                <small style="right: 0">
+                    最后回复:{{ message.timestamp.strftime('%Y/%m/%d %H:%M') }}&nbsp;&nbsp;
                 </small>
+                <small>点击量:{{ message.clickNum }}&nbsp;&nbsp;</small>
+                <small>回复数:{{ message.replyNum }}</small>
             </li>
         {% endfor %}
     </ul>

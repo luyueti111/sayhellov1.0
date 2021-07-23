@@ -1,8 +1,9 @@
 from flask import flash, redirect, url_for, render_template
 from sayhello import app, db
-from sayhello.models import Message
-from sayhello.forms import HelloForm, SearchForm
+from sayhello.models import Message, Page
+from sayhello.forms import HelloForm, SearchForm, ReplyForm
 from sqlalchemy import or_
+from datetime import datetime
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -13,14 +14,17 @@ def index():
         name = form.name.data
         body = form.body.data
         message = Message(body=body, name=name)
+        page = Page(body=body, name=name)
         db.session.add(message)
+        db.session.add(page)
+        message.pages.append(page)
         db.session.commit()
         return redirect(url_for('index'))
-    messages = Message.query.all()
+    messages = Message.query.order_by(Message.timestamp.desc()).all()
     return render_template('index_with_base.html',
                            form=form,
                            searchForm=searchForm,
-                           messages=list(reversed(messages)))
+                           messages=messages)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -35,3 +39,27 @@ def searchMessage():
                                searchNumber=searchedMessage.count(),
                                messages=searchedMessage,
                                searchForm=searchForm)
+
+
+@app.route('/page/<int:message_id>', methods=['GET', 'POST'])
+def replyPage(message_id):
+    searchForm = SearchForm()
+    replyForm = ReplyForm()
+    message = Message.query.get(message_id)
+    message.clickNum += 1
+    pages = message.pages
+    db.session.commit()
+    if replyForm.validate_on_submit():
+        name = replyForm.name.data
+        body = replyForm.body.data
+        page = Page(body=body, name=name)
+        message.timestamp = datetime.now()
+        message.replyNum += 1
+        db.session.add(page)
+        message.pages.append(page)
+        db.session.commit()
+        return redirect(url_for('replyPage', message_id=message_id))
+    return render_template('reply.html',
+                           messages=pages,
+                           form=replyForm,
+                           searchForm=searchForm)
