@@ -10,6 +10,7 @@ sqlalchemy = "*"
 flask-wtf = "*"
 wtforms = "*"
 python-dotenv = "*"
+faker = "*"
 
 [dev-packages]
 

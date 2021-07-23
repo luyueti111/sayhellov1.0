@@ -4,6 +4,9 @@ from sayhello.models import Message, Page
 from sayhello.forms import HelloForm, SearchForm, ReplyForm
 from sqlalchemy import or_
 from datetime import datetime
+from faker import Faker
+
+fake = Faker()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -20,6 +23,7 @@ def index():
         message.pages.append(page)
         db.session.commit()
         return redirect(url_for('index'))
+    form.name.data = fake.name()
     messages = Message.query.order_by(Message.timestamp.desc()).all()
     return render_template('index_with_base.html',
                            form=form,
@@ -59,6 +63,7 @@ def replyPage(message_id):
         message.pages.append(page)
         db.session.commit()
         return redirect(url_for('replyPage', message_id=message_id))
+    replyForm.name.data = fake.name()
     return render_template('reply.html',
                            messages=pages,
                            form=replyForm,
