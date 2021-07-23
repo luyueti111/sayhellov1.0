@@ -12,7 +12,6 @@ fake = Faker()
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = HelloForm()
-    searchForm = SearchForm()
     if form.validate_on_submit():
         name = form.name.data
         body = form.body.data
@@ -27,7 +26,6 @@ def index():
     messages = Message.query.order_by(Message.timestamp.desc()).all()
     return render_template('index_with_base.html',
                            form=form,
-                           searchForm=searchForm,
                            messages=messages)
 
 
@@ -47,7 +45,6 @@ def searchMessage():
 
 @app.route('/page/<int:message_id>', methods=['GET', 'POST'])
 def replyPage(message_id):
-    searchForm = SearchForm()
     replyForm = ReplyForm()
     message = Message.query.get(message_id)
     message.clickNum += 1
@@ -66,5 +63,15 @@ def replyPage(message_id):
     replyForm.name.data = fake.name()
     return render_template('reply.html',
                            messages=pages,
-                           form=replyForm,
-                           searchForm=searchForm)
+                           form=replyForm)
+
+
+@app.context_processor
+def injectSearchForm():
+    searchForm = SearchForm()
+    return dict(searchForm=searchForm)
+
+
+@app.route('/testIphone')
+def testIndex():
+    return render_template('testh.html')

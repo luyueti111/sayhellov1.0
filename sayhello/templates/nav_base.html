@@ -15,7 +15,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-default" style="margin: 0 auto;">
+    <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -31,7 +31,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a href="https://github.com/luyueti111/sayhellov1.0">My Github <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Link</a></li>
+            <li><a href={{ url_for('testIndex') }}>Iphone Test</a></li>
           </ul>
           <form class="navbar-form navbar-left" method="post" action="{{ url_for('searchMessage') }}">
               {{ searchForm.csrf_token }}
@@ -44,8 +44,11 @@
       </div><!-- /.container-fluid -->
     </nav>
     {% block pageHead %}{% endblock pageHead %}
-    <div class="container" style="margin: 0 auto; width: 500px">
+
+    <div class="row">
+        <div class="col-md-3"></div>
         {% block content %}{% endblock content %}
+        <div class="col-md-3"></div>
     </div>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->

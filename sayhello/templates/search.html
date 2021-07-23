@@ -7,17 +7,19 @@
 {% endblock pageHead %}
 
 {% block content %}
-    <ul class="list-group" style="width: 500px">
-        {% for message in messages %}
-            <li class="list-group-item">
-                <h4 class="list-group-item-heading">{{ message.name }}<small>&nbsp;&nbsp;&nbsp;#{{ message.id }}</small></h4>
-                <p class="list-group-item-text" style="width: 490px; word-break: break-all; word-wrap: break-word">{{ message.body }}</p>
-                <small style="right: 0">
-                    最后回复:{{ message.timestamp.strftime('%Y/%m/%d %H:%M') }}&nbsp;&nbsp;
-                </small>
-                <small>点击量:{{ message.clickNum }}&nbsp;&nbsp;</small>
-                <small>回复数:{{ message.replyNum }}</small>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="col-md-6">
+        <ul class="list-group" style="margin:0 auto; width:90%">
+            {% for message in messages %}
+                <li class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ message.name }}</h4>
+                    <p class="list-group-item-text" style="width: 100%; word-break: break-all; word-wrap: break-word">{{ message.body }}</p>
+                    <small>
+                        最后回复:{{ message.timestamp.strftime('%Y/%m/%d %H:%M') }}&nbsp;&nbsp;
+                    </small>
+                    <small>点击量:{{ message.clickNum }}&nbsp;&nbsp;</small>
+                    <small style="margin-left: 0">回复数:{{ message.replyNum }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
